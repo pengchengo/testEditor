@@ -44,6 +44,31 @@ public class SampleGraphView : GraphView
         edgeView.output.Connect(edgeView);
 		edgeView.input.Connect(edgeView);
         AddElement(edgeView);
+
+
+        testGraphData();
+    }
+
+    public void testGraphData(){
+        var graphData = new GraphData();
+        var nodeData = new NodeData();
+        nodeData.type = "nodeTestType";
+        graphData.nodes.Add(nodeData);
+        var edgeData = new EdgeData();
+        edgeData.source = "testSource";
+        edgeData.sourceNodeId = "testsourceNodeId";
+        edgeData.target = "testtarget";
+        edgeData.targetNodeId = "testtargetNodeId";
+        graphData.edges.Add(edgeData);
+        var propertyData = new Property();
+        propertyData.name = "testName";
+        propertyData.value = 1;
+        graphData.properties.Add(propertyData);
+        var result = JsonUtility.ToJson(graphData);
+        Debug.Log("testGraphData=");
+
+        var testData = JsonUtility.FromJson<GraphData>(result);
+        Debug.Log(testData.nodes.Count);
     }
 
     public override List<Port> GetCompatiblePorts(Port startAnchor, NodeAdapter nodeAdapter)
