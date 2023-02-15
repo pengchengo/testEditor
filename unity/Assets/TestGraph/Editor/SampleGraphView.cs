@@ -25,6 +25,25 @@ public class SampleGraphView : GraphView
         {
             SearchWindow.Open(new SearchWindowContext(context.screenMousePosition), menuWindowProvider);
         };
+
+        var node1 = new SampleChildNode();
+        var node2 = new SampleChild2Node();
+        var position = new Vector2(node2.GetPosition().x + 200, node2.GetPosition().y);
+        node2.SetPosition(new Rect(position, node2.GetPosition().size));
+        AddElement(node1);
+        AddElement(node2);
+
+        var node1OutPut = node1.outputPort;
+        var node2InPut = node2.inputPort;
+        var edgeView = new Edge
+        {
+            //userData = edge,
+            output = node2InPut,
+            input = node1OutPut
+        };
+        edgeView.output.Connect(edgeView);
+		edgeView.input.Connect(edgeView);
+        AddElement(edgeView);
     }
 
     public override List<Port> GetCompatiblePorts(Port startAnchor, NodeAdapter nodeAdapter)
