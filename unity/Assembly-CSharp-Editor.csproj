@@ -67,6 +67,9 @@
     <Compile Include="Assets\TestGraph\Editor\GraphJsonData.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Assets\TestGraph\Editor\Resources\styles\SampleView.uss" />
+  </ItemGroup>
+  <ItemGroup>
     <Reference Include="UnityEngine">
       <HintPath>D:\Unity Hub\Editor\2022.2.0b16\Editor\Data\Managed\UnityEngine\UnityEngine.dll</HintPath>
     </Reference>

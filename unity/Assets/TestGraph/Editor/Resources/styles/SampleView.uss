@@ -1,0 +1,7 @@
+.ControlField {
+	flex-direction: row;
+}
+
+.ControlField #value-field{
+	flex-grow: 1;
+}
