@@ -28,22 +28,45 @@ public abstract class SampleNode : Node
         outputPort = Port.Create<Edge>(Orientation.Horizontal, Direction.Output, Port.Capacity.Single, typeof(Port));
         outputContainer.Add(outputPort);
 
-        var viewCont = new VisualElement();
-        viewCont.AddToClassList("ControlField");
-        viewCont.Add(new Label("LableName1") {name = "LableName2"});
-
         var propertyList = this.GetType().GetProperties();
         Debug.Log("property=");
-        var property = this.GetType().GetProperty("testBool");
-        foreach(var PropertyInfo in propertyList){
-            //Debug.Log(PropertyInfo.Name);
+        foreach(var propertyInfo in propertyList){
+            foreach(var attribute in propertyInfo.GetCustomAttributes(typeof(SampleBaseControlAttribute), false)){
+                var viewCont = new VisualElement();
+                viewCont.AddToClassList("ControlField");
+                viewCont.Add(new Label(propertyInfo.Name) {name = propertyInfo.Name});
+                viewCont.Add(AddControl(this, new Toggle() {name = "testFiend"}, propertyInfo));
+                contents.Add(viewCont);
+                Debug.Log(propertyInfo.Name);
+            }
         }
-        
-        viewCont.Add(AddControl(this, new Toggle() {name = "testFiend"}, property));
-        contents.Add(viewCont);
+        Debug.Log("property end");
+        foreach (var fieldInfo in this.GetType().GetFields(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic)){
+            foreach(var attribute in fieldInfo.GetCustomAttributes(typeof(SampleBaseControlAttribute), false)){
+                var viewCont = new VisualElement();
+                viewCont.AddToClassList("ControlField");
+                viewCont.Add(new Label(fieldInfo.Name) {name = fieldInfo.Name});
+                viewCont.Add(AddControl(this, new Toggle() {name = "testFiend"}, fieldInfo));
+                contents.Add(viewCont);
+                Debug.Log(fieldInfo.Name);
+            }
+        }
+        Debug.Log("field end");
     }
 
     private BaseField<T> AddControl<T>(SampleNode node, BaseField<T> field, PropertyInfo property)
+    {
+        field.value = (T) property.GetValue(node);
+        /*field.OnValueChanged(e =>
+        {
+            node.owner.owner.RegisterCompleteObjectUndo(typeof(T).Name + " Change");
+            property.SetValue(node, e.newValue);
+            node.Dirty(ModificationScope.Node);
+        });*/
+        return field;
+    }
+
+    private BaseField<T> AddControl<T>(SampleNode node, BaseField<T> field, FieldInfo property)
     {
         field.value = (T) property.GetValue(node);
         /*field.OnValueChanged(e =>
