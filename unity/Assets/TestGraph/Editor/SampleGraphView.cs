@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Reflection;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -26,8 +27,27 @@ public class SampleGraphView : GraphView
             SearchWindow.Open(new SearchWindowContext(context.screenMousePosition), menuWindowProvider);
         };
 
-        var node1 = new SampleChildNode();
-        var node2 = new SampleChild2Node();
+        var node1 = new SampleChildNode(this);
+        var node2 = new SampleChild2Node(this);
+        var propertyList = node1.GetType().GetProperties();
+        foreach(var propertyInfo in propertyList){
+            foreach(var attribute in propertyInfo.GetCustomAttributes(typeof(SampleBaseControlAttribute), false)){
+                Debug.Log("node1 propertyInfo.Name="+propertyInfo.Name);
+                Debug.Log("node1 propertyInfo.GetValue(node)="+propertyInfo.GetValue(node1));
+            }
+        }
+        foreach (var fieldInfo in node1.GetType().GetFields(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic)){
+            foreach(var attribute in fieldInfo.GetCustomAttributes(typeof(SampleBaseControlAttribute), false)){
+                var propertyType = fieldInfo.FieldType;
+                if(propertyType == typeof(string)){
+                    fieldInfo.SetValue(node1, "peter");
+                }
+                Debug.Log("node1 fieldInfo.Name="+fieldInfo.Name);
+                Debug.Log("node1 fieldInfo.GetValue(node)="+fieldInfo.GetValue(node1));
+            }
+        }
+        node1.initFromData();
+        node2.initFromData();
         var position = new Vector2(node2.GetPosition().x + 200, node2.GetPosition().y);
         node2.SetPosition(new Rect(position, node2.GetPosition().size));
         AddElement(node1);
@@ -71,6 +91,30 @@ public class SampleGraphView : GraphView
         Debug.Log(testData.nodes.Count);
     }
 
+    public void testToJson(){
+        Debug.Log("testToJson start");
+        int num = 0;
+        foreach(var node in this.nodes){
+            num++;
+            var nodeData = new NodeData();
+            var propertyList = node.GetType().GetProperties();
+            foreach(var propertyInfo in propertyList){
+                foreach(var attribute in propertyInfo.GetCustomAttributes(typeof(SampleBaseControlAttribute), false)){
+                    //Debug.Log("propertyInfo.Name="+propertyInfo.Name);
+                    //Debug.Log("propertyInfo.GetValue(node)="+propertyInfo.GetValue(node));
+                }
+            }
+            foreach (var fieldInfo in node.GetType().GetFields(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic)){
+                foreach(var attribute in fieldInfo.GetCustomAttributes(typeof(SampleBaseControlAttribute), false)){
+                    var propertyType = fieldInfo.FieldType;
+                    //Debug.Log("fieldInfo.Name="+fieldInfo.Name);
+                    //Debug.Log("fieldInfo.GetValue(node)="+fieldInfo.GetValue(node));
+                }
+            }
+        }
+        Debug.Log("testToJson end num="+num);
+    }
+
     public override List<Port> GetCompatiblePorts(Port startAnchor, NodeAdapter nodeAdapter)
     {
         return ports.ToList();
@@ -89,7 +133,7 @@ public class SampleGraphView : GraphView
 
     private void CreateNode(Type type, Vector2 pos = default)
     {
-        SampleChildNode nodeView = new SampleChildNode();
+        SampleChildNode nodeView = new SampleChildNode(this);
         nodeView.SetPosition(new Rect(pos, nodeView.GetPosition().size));
         this.AddElement(nodeView);
     }

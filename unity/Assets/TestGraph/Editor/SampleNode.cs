@@ -10,8 +10,10 @@ public abstract class SampleNode : Node
     public Port inputPort;
     public Port outputPort;
 
-    public SampleNode()
+    public SampleGraphView graphView;
+    public SampleNode(SampleGraphView _graphView)
     {
+        graphView = _graphView;
         title = "Sample";
 
         testBool = true;
@@ -28,7 +30,10 @@ public abstract class SampleNode : Node
  
         outputPort = Port.Create<Edge>(Orientation.Horizontal, Direction.Output, Port.Capacity.Single, typeof(Port));
         outputContainer.Add(outputPort);
+    }
 
+    public void initFromData(){
+        var contents = this.Q("contents");
         var propertyList = this.GetType().GetProperties();
         Debug.Log("property=");
         foreach(var propertyInfo in propertyList){
@@ -36,7 +41,11 @@ public abstract class SampleNode : Node
                 var viewCont = new VisualElement();
                 viewCont.AddToClassList("ControlField");
                 viewCont.Add(new Label(propertyInfo.Name) {name = propertyInfo.Name});
-                viewCont.Add(AddControl(this, new Toggle() {name = "testFiend"}, propertyInfo));
+                var propertyType = propertyInfo.PropertyType;
+                if (propertyType == typeof(bool))
+                    viewCont.Add(AddControl(this, new Toggle() {name = propertyInfo.Name}, propertyInfo));
+                else if (propertyType == typeof(string))
+                    viewCont.Add(AddControl(this, new TextField() {name = propertyInfo.Name}, propertyInfo));
                 contents.Add(viewCont);
                 Debug.Log(propertyInfo.Name);
             }
@@ -47,7 +56,12 @@ public abstract class SampleNode : Node
                 var viewCont = new VisualElement();
                 viewCont.AddToClassList("ControlField");
                 viewCont.Add(new Label(fieldInfo.Name) {name = fieldInfo.Name});
-                viewCont.Add(AddControl(this, new Toggle() {name = "testFiend"}, fieldInfo));
+
+                var propertyType = fieldInfo.FieldType;
+                if (propertyType == typeof(bool))
+                    viewCont.Add(AddControl(this, new Toggle() {name = fieldInfo.Name}, fieldInfo));
+                else if (propertyType == typeof(string))
+                    viewCont.Add(AddControl(this, new TextField() {name = fieldInfo.Name}, fieldInfo));
                 contents.Add(viewCont);
                 Debug.Log(fieldInfo.Name);
             }
@@ -60,6 +74,7 @@ public abstract class SampleNode : Node
         field.value = (T) property.GetValue(node);
         field.RegisterValueChangedCallback(e =>
         {
+            Debug.Log("AddControl RegisterValueChangedCallback 1");
             //node.owner.owner.RegisterCompleteObjectUndo(typeof(T).Name + " Change");
             property.SetValue(node, e.newValue);
             //node.Dirty(ModificationScope.Node);
@@ -72,9 +87,11 @@ public abstract class SampleNode : Node
         field.value = (T) property.GetValue(node);
         field.RegisterValueChangedCallback(e =>
         {
+            Debug.Log("AddControl RegisterValueChangedCallback 2");
             //node.owner.owner.RegisterCompleteObjectUndo(typeof(T).Name + " Change");
             property.SetValue(node, e.newValue);
             //node.Dirty(ModificationScope.Node);
+            graphView.testToJson();
         });
         return field;
     }
