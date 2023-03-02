@@ -10,7 +10,6 @@ public abstract class SampleNode : Node
     public Port inputPort;
     public Port outputPort;
 
-    public owner;
     public SampleNode()
     {
         title = "Sample";
