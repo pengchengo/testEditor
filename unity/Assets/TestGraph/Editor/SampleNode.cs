@@ -9,6 +9,8 @@ public abstract class SampleNode : Node
     public bool testBool{ get; set; } = true;
     public Port inputPort;
     public Port outputPort;
+
+    public owner;
     public SampleNode()
     {
         title = "Sample";
@@ -57,24 +59,24 @@ public abstract class SampleNode : Node
     private BaseField<T> AddControl<T>(SampleNode node, BaseField<T> field, PropertyInfo property)
     {
         field.value = (T) property.GetValue(node);
-        /*field.OnValueChanged(e =>
+        field.RegisterValueChangedCallback(e =>
         {
-            node.owner.owner.RegisterCompleteObjectUndo(typeof(T).Name + " Change");
+            //node.owner.owner.RegisterCompleteObjectUndo(typeof(T).Name + " Change");
             property.SetValue(node, e.newValue);
-            node.Dirty(ModificationScope.Node);
-        });*/
+            //node.Dirty(ModificationScope.Node);
+        });
         return field;
     }
 
     private BaseField<T> AddControl<T>(SampleNode node, BaseField<T> field, FieldInfo property)
     {
         field.value = (T) property.GetValue(node);
-        /*field.OnValueChanged(e =>
+        field.RegisterValueChangedCallback(e =>
         {
-            node.owner.owner.RegisterCompleteObjectUndo(typeof(T).Name + " Change");
+            //node.owner.owner.RegisterCompleteObjectUndo(typeof(T).Name + " Change");
             property.SetValue(node, e.newValue);
-            node.Dirty(ModificationScope.Node);
-        });*/
+            //node.Dirty(ModificationScope.Node);
+        });
         return field;
     }
 }
