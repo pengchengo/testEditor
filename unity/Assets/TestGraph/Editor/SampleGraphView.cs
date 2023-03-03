@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Reflection;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
@@ -10,6 +11,13 @@ public class SampleGraphView : GraphView
     SampleGraphEditorWindow window;
     public SampleGraphView(SampleGraphEditorWindow _window) : base()
     {
+
+        string FileUrl = Application.dataPath + "/TestGraph/sampleData.txt";
+
+        //string str = File.ReadAllText(FileUrl);
+
+        Debug.Log("FileUrl="+FileUrl);
+
         window = _window;
         SetupZoom(ContentZoomer.DefaultMinScale, ContentZoomer.DefaultMaxScale);
         this.AddManipulator(new SelectionDragger());

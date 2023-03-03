@@ -65,6 +65,7 @@
     <Compile Include="Assets\TestGraph\Editor\SampleChildNode.cs" />
     <Compile Include="Assets\TestGraph\Editor\SampleGraphView.cs" />
     <Compile Include="Assets\TestGraph\Editor\SampleGraphEditorWindow.cs" />
+    <Compile Include="Assets\TestGraph\Editor\SetAssetsPathFilesDefaultOpenMode.cs" />
     <Compile Include="Assets\TestGraph\Editor\SampleSearchMenuWindowProvider.cs" />
     <Compile Include="Assets\TestGraph\Editor\GraphJsonData.cs" />
   </ItemGroup>
