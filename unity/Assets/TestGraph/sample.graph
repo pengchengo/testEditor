@@ -1,1 +1,1 @@
-{"test":"name"}
+{"properties":[],"nodes":[{"type":"SampleChildNode","variables":[{"name":"testName","type":"9","value":"peter"}],"slots":[],"id":""},{"type":"SampleChild2Node","variables":[{"name":"toTarget","type":"8","value":"False"}],"slots":[],"id":""}],"edges":[]}

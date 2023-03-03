@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class ObjectUtils
 {
-    public static byte GetObjType(object obj)
+    public static string GetObjType(object obj)
     {
         if (obj == null) return ObjectType.Null;
         if (obj is Enum) return ObjectType.Int;
@@ -19,6 +19,17 @@ public class ObjectUtils
         if (obj is Color) return ObjectType.Color;
         if (obj is string) return ObjectType.String;
         return ObjectType.Null;
+    }
+
+    public static object GetObjValue(Property info)
+    {
+        if (info.type == ObjectType.Null) return null;
+        else if (info.type == ObjectType.Int) return int.Parse(info.value);
+        else if (info.type == ObjectType.Float) return float.Parse(info.value);
+        else if (info.type == ObjectType.Double) return double.Parse(info.value);
+        else if (info.type == ObjectType.Bool) return bool.Parse(info.value);
+        else if (info.type == ObjectType.String) return info.value;
+        else return info.value;
     }
 
     /*public static byte[] ToByte(object obj)
@@ -104,23 +115,24 @@ public class ObjectUtils
 
 public class ObjectType
 {
-    public const byte Null = 0;
-    public const byte Int = 1;
-    public const byte Float = 2;
-    public const byte Double = 3;
-    public const byte Vec2 = 4;
-    public const byte Vec3 = 5;
-    public const byte Vec4 = 6;
-    public const byte Color = 7;
-    public const byte Bool = 8;
-    public const byte String = 9;
+    public const string Null = "0";
+    public const string Int = "1";
+    public const string Float = "2";
+    public const string Double = "3";
+    public const string Vec2 = "4";
+    public const string Vec3 = "5";
+    public const string Vec4 = "6";
+    public const string Color = "7";
+    public const string Bool = "8";
+    public const string String = "9";
 }
 
 [Serializable]
 public class Property
 {
     public string name;
-    public object value = null;
+    public string type;
+    public string value = null;
 }
 
 [Serializable]

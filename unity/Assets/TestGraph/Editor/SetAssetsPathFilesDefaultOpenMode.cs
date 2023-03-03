@@ -34,7 +34,7 @@ public class SetAssetsPathFilesDefaultOpenMode
         //指定打开文件类型
         if (name.EndsWith(".graph"))
         {
-            SampleGraphEditorWindow.Open();
+            SampleGraphEditorWindow.Open(path);
             return true;
         }
         return false;

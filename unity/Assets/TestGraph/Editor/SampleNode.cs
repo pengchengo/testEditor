@@ -1,3 +1,4 @@
+using System;
 using System.Reflection;
 using UnityEditor;
 using UnityEditor.Experimental.GraphView;
@@ -32,13 +33,26 @@ public abstract class SampleNode : Node
         outputContainer.Add(outputPort);
     }
 
-    public void initFromData(){
+    public Property getValueFromNodeData(NodeData nodeData, string name){
+        foreach(var propertyInfo in nodeData.variables){
+            if(propertyInfo.name == name){
+                return propertyInfo;
+            }
+        }
+        return null;
+    }
+
+    public void initFromData(NodeData nodeData){
         var contents = this.Q("contents");
         var propertyList = this.GetType().GetProperties();
         Debug.Log("property=");
         foreach(var propertyInfo in propertyList){
             foreach(var attribute in propertyInfo.GetCustomAttributes(typeof(SampleBaseControlAttribute), false)){
                 var viewCont = new VisualElement();
+                Property data = this.getValueFromNodeData(nodeData, propertyInfo.Name);
+                if(data != null){
+                    propertyInfo.SetValue(this, ObjectUtils.GetObjValue(data));
+                }
                 viewCont.AddToClassList("ControlField");
                 viewCont.Add(new Label(propertyInfo.Name) {name = propertyInfo.Name});
                 var propertyType = propertyInfo.PropertyType;
@@ -55,6 +69,10 @@ public abstract class SampleNode : Node
             foreach(var attribute in fieldInfo.GetCustomAttributes(typeof(SampleBaseControlAttribute), false)){
                 var viewCont = new VisualElement();
                 viewCont.AddToClassList("ControlField");
+                Property data = this.getValueFromNodeData(nodeData, fieldInfo.Name);
+                if(data != null){
+                    fieldInfo.SetValue(this, ObjectUtils.GetObjValue(data));
+                }
                 viewCont.Add(new Label(fieldInfo.Name) {name = fieldInfo.Name});
 
                 var propertyType = fieldInfo.FieldType;
