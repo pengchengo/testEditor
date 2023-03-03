@@ -61,8 +61,10 @@
     <Compile Include="Assets\TestGraph\Editor\SampleNode.cs" />
     <Compile Include="Assets\TestGraph\Editor\SampleControlAttribute.cs" />
     <Compile Include="Assets\TestGraph\Editor\SampleBaseControlAttribute.cs" />
+    <Compile Include="Assets\TestGraph\Editor\SamplePort.cs" />
     <Compile Include="Assets\TestGraph\Editor\OnAssetsEvent.cs" />
     <Compile Include="Assets\TestGraph\Editor\SampleChild2Node.cs" />
+    <Compile Include="Assets\TestGraph\Editor\SampleEdgeConnectorListener.cs" />
     <Compile Include="Assets\TestGraph\Editor\SampleChildNode.cs" />
     <Compile Include="Assets\TestGraph\Editor\SampleGraphView.cs" />
     <Compile Include="Assets\TestGraph\Editor\SampleGraphEditorWindow.cs" />

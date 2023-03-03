@@ -1,1 +1,1 @@
-{"properties":[],"nodes":[{"type":"SampleChildNode","variables":[{"name":"testName","type":"9","value":"peter"}],"slots":[],"id":"1","pos":"0,0"},{"type":"SampleChild2Node","variables":[{"name":"toTarget","type":"8","value":"False"}],"slots":[],"id":"2","pos":"200,0"}],"edges":[]}
+{"properties":[],"nodes":[{"type":"SampleChildNode","variables":[{"name":"testName","type":"9","value":"peter"}],"slots":[],"id":"1","pos":"0,0"},{"type":"SampleChild2Node","variables":[{"name":"toTarget","type":"8","value":"False"}],"slots":[],"id":"2","pos":"233,0"}],"edges":[]}

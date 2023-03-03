@@ -8,9 +8,10 @@ using UnityEngine.UIElements;
 public abstract class SampleNode : Node
 {
     public int id;
+    public int portId;
     public bool testBool{ get; set; } = true;
-    public Port inputPort;
-    public Port outputPort;
+    public SamplePort inputPort;
+    public SamplePort outputPort;
 
     public SampleGraphView graphView;
     public SampleNode(SampleGraphView _graphView, int nodeId)
@@ -18,7 +19,7 @@ public abstract class SampleNode : Node
         graphView = _graphView;
         id = nodeId;
         title = "Sample";
-
+        portId = 1;
         testBool = true;
 
         var contents = this.Q("contents");
@@ -28,10 +29,12 @@ public abstract class SampleNode : Node
         this.styleSheets.Add(styleSheet);
         //contents.AddStyleSheetPath("styles/SampleView");
 
-        inputPort = Port.Create<Edge>(Orientation.Horizontal, Direction.Input, Port.Capacity.Single, typeof(Port));
+        //inputPort = Port.Create<Edge>(Orientation.Horizontal, Direction.Input, Port.Capacity.Single, typeof(Port));
+        inputPort = new SamplePort(this, Orientation.Horizontal, Direction.Input, Port.Capacity.Single, typeof(Port));
         inputContainer.Add(inputPort);
  
-        outputPort = Port.Create<Edge>(Orientation.Horizontal, Direction.Output, Port.Capacity.Single, typeof(Port));
+        //outputPort = Port.Create<Edge>(Orientation.Horizontal, Direction.Output, Port.Capacity.Single, typeof(Port));
+        outputPort = new SamplePort(this, Orientation.Horizontal, Direction.Output, Port.Capacity.Single, typeof(Port));
         outputContainer.Add(outputPort);
     }
 

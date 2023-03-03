@@ -152,7 +152,23 @@ public class SampleGraphView : GraphView
             graphData.nodes.Add(nodeData);
         }
 
-        foreach(var node in this.edges){
+        foreach(var edge in this.edges){
+            var inputPort = edge.input as SamplePort;
+            var inputNode = inputPort.node as SampleNode;
+            Debug.Log("inputPort.id ="+ inputPort.id);
+            if(inputNode != null){
+                Debug.Log("sampleNode.inputNode id= "+inputNode.id);
+            }else{
+                Debug.Log("sampleNode.inputNode = null");
+            }
+            var outputPort = edge.output as SamplePort;
+            var outputNode = outputPort.node as SampleNode;
+            Debug.Log("outputPort.id ="+ outputPort.id);
+            if(outputNode != null){
+                Debug.Log("sampleNode.outputNode id= "+outputNode.id);
+            }else{
+                Debug.Log("sampleNode.outputNode = null");
+            }
         }
         string result = JsonUtility.ToJson(graphData);
         
