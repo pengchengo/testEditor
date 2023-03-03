@@ -8,6 +8,7 @@ using UnityEngine.UIElements;
 
 public class SampleGraphView : GraphView
 {
+    static int nodeId = 1;
     SampleGraphEditorWindow window;
     string filePath = "";
     public SampleGraphView(SampleGraphEditorWindow _window, string path) : base()
@@ -42,20 +43,24 @@ public class SampleGraphView : GraphView
         GraphData graphData = JsonUtility.FromJson<GraphData>(json);
         foreach(var nodeInfo in graphData.nodes){
             Type type = Type.GetType(nodeInfo.type);
-            SampleNode obj = Activator.CreateInstance(type, this) as SampleNode;
+            SampleNode obj = Activator.CreateInstance(type, this, int.Parse(nodeInfo.id)) as SampleNode;
+            SampleGraphView.nodeId = int.Parse(nodeInfo.id)+1;
+            var posList = nodeInfo.pos.Split (',');
+            var postion = obj.GetPosition();
+            obj.SetPosition(new Rect(int.Parse(posList[0]), int.Parse(posList[1]), postion.width, postion.height));
             obj.initFromData(nodeInfo);
             AddElement(obj);
         }
     }
 
     public void testCreate(){
-        var node1 = new SampleChildNode(this);
-        var node2 = new SampleChild2Node(this);
+        var node1 = new SampleChildNode(this, SampleGraphView.nodeId++);
+        var node2 = new SampleChild2Node(this, SampleGraphView.nodeId++);
         var propertyList = node1.GetType().GetProperties();
         foreach(var propertyInfo in propertyList){
             foreach(var attribute in propertyInfo.GetCustomAttributes(typeof(SampleBaseControlAttribute), false)){
-                Debug.Log("node1 propertyInfo.Name="+propertyInfo.Name);
-                Debug.Log("node1 propertyInfo.GetValue(node)="+propertyInfo.GetValue(node1));
+                //Debug.Log("node1 propertyInfo.Name="+propertyInfo.Name);
+                //Debug.Log("node1 propertyInfo.GetValue(node)="+propertyInfo.GetValue(node1));
             }
         }
         foreach (var fieldInfo in node1.GetType().GetFields(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic)){
@@ -64,8 +69,8 @@ public class SampleGraphView : GraphView
                 if(propertyType == typeof(string)){
                     fieldInfo.SetValue(node1, "peter");
                 }
-                Debug.Log("node1 fieldInfo.Name="+fieldInfo.Name);
-                Debug.Log("node1 fieldInfo.GetValue(node)="+fieldInfo.GetValue(node1));
+                //Debug.Log("node1 fieldInfo.Name="+fieldInfo.Name);
+                //Debug.Log("node1 fieldInfo.GetValue(node)="+fieldInfo.GetValue(node1));
             }
         }
         node1.initFromData(new NodeData());
@@ -117,7 +122,9 @@ public class SampleGraphView : GraphView
         foreach(var node in this.nodes){
             num++;
             var nodeData = new NodeData();
+            nodeData.id = (node as SampleNode).id.ToString();
             nodeData.type = node.GetType().ToString();
+            nodeData.pos = node.GetPosition().x.ToString()+","+node.GetPosition().y.ToString();
             var propertyList = node.GetType().GetProperties();
             foreach(var propertyInfo in propertyList){
                 foreach(var attribute in propertyInfo.GetCustomAttributes(typeof(SampleBaseControlAttribute), false)){
@@ -143,6 +150,9 @@ public class SampleGraphView : GraphView
                 }
             }
             graphData.nodes.Add(nodeData);
+        }
+
+        foreach(var node in this.edges){
         }
         string result = JsonUtility.ToJson(graphData);
         
@@ -193,7 +203,7 @@ public class SampleGraphView : GraphView
 
     private void CreateNode(Type type, Vector2 pos = default)
     {
-        SampleChildNode nodeView = new SampleChildNode(this);
+        SampleChildNode nodeView = new SampleChildNode(this, SampleGraphView.nodeId++);
         nodeView.SetPosition(new Rect(pos, nodeView.GetPosition().size));
         this.AddElement(nodeView);
     }

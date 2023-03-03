@@ -149,6 +149,7 @@ public class NodeData
     public List<Property> variables = new List<Property>();
     public List<SlotData> slots = new List<SlotData>();
     public string id;
+    public string pos;
 }
 
 [Serializable]

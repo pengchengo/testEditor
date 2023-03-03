@@ -7,22 +7,24 @@ using UnityEngine.UIElements;
 
 public abstract class SampleNode : Node
 {
+    public int id;
     public bool testBool{ get; set; } = true;
     public Port inputPort;
     public Port outputPort;
 
     public SampleGraphView graphView;
-    public SampleNode(SampleGraphView _graphView)
+    public SampleNode(SampleGraphView _graphView, int nodeId)
     {
         graphView = _graphView;
+        id = nodeId;
         title = "Sample";
 
         testBool = true;
 
         var contents = this.Q("contents");
         var styleSheet = AssetDatabase.LoadAssetAtPath<StyleSheet>("Assets/TestGraph/Editor/Resources/styles/SampleView.uss");
-        Debug.Log("styleSheet=");
-        Debug.Log(styleSheet);
+        //Debug.Log("styleSheet=");
+        //Debug.Log(styleSheet);
         this.styleSheets.Add(styleSheet);
         //contents.AddStyleSheetPath("styles/SampleView");
 
@@ -45,7 +47,7 @@ public abstract class SampleNode : Node
     public void initFromData(NodeData nodeData){
         var contents = this.Q("contents");
         var propertyList = this.GetType().GetProperties();
-        Debug.Log("property=");
+        //Debug.Log("property=");
         foreach(var propertyInfo in propertyList){
             foreach(var attribute in propertyInfo.GetCustomAttributes(typeof(SampleBaseControlAttribute), false)){
                 var viewCont = new VisualElement();
@@ -61,10 +63,10 @@ public abstract class SampleNode : Node
                 else if (propertyType == typeof(string))
                     viewCont.Add(AddControl(this, new TextField() {name = propertyInfo.Name}, propertyInfo));
                 contents.Add(viewCont);
-                Debug.Log(propertyInfo.Name);
+                //Debug.Log(propertyInfo.Name);
             }
         }
-        Debug.Log("property end");
+        //Debug.Log("property end");
         foreach (var fieldInfo in this.GetType().GetFields(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic)){
             foreach(var attribute in fieldInfo.GetCustomAttributes(typeof(SampleBaseControlAttribute), false)){
                 var viewCont = new VisualElement();
@@ -81,10 +83,10 @@ public abstract class SampleNode : Node
                 else if (propertyType == typeof(string))
                     viewCont.Add(AddControl(this, new TextField() {name = fieldInfo.Name}, fieldInfo));
                 contents.Add(viewCont);
-                Debug.Log(fieldInfo.Name);
+                //Debug.Log(fieldInfo.Name);
             }
         }
-        Debug.Log("field end");
+        //Debug.Log("field end");
     }
 
     private BaseField<T> AddControl<T>(SampleNode node, BaseField<T> field, PropertyInfo property)

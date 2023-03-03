@@ -18,7 +18,7 @@ public class SampleGraphEditorWindow : EditorWindow
 
     void OnEnable()
     {
-        curGraphView = new SampleGraphView(this, curPath){
+        curGraphView = new SampleGraphView(this, SampleGraphEditorWindow.curPath){
           style  = { flexGrow = 1}
         };
         rootVisualElement.Add(curGraphView
@@ -26,8 +26,12 @@ public class SampleGraphEditorWindow : EditorWindow
 
     }
 
-    void OnDisable(){
-        Debug.Log("SampleGraphEditorWindow OnDisable");
-        curGraphView.Save();
+    void OnDestroy(){
+        Debug.Log("SampleGraphEditorWindow OnDestroy ");
+        if(curGraphView != null){
+            curGraphView.Save();
+            curGraphView = null;
+        }
+        
     }
 }
