@@ -153,22 +153,32 @@ public class SampleGraphView : GraphView
         }
 
         foreach(var edge in this.edges){
+            var edgeData = new EdgeData();
             var inputPort = edge.input as SamplePort;
             var inputNode = inputPort.node as SampleNode;
             Debug.Log("inputPort.id ="+ inputPort.id);
             if(inputNode != null){
-                Debug.Log("sampleNode.inputNode id= "+inputNode.id);
+                //Debug.Log("sampleNode.inputNode id= "+inputNode.id);
+                edgeData.source = inputPort.id.ToString();
+                edgeData.sourceNodeId = inputNode.id.ToString();
             }else{
-                Debug.Log("sampleNode.inputNode = null");
+                //Debug.Log("sampleNode.inputNode = null");
+                edgeData.source = "0";
+                edgeData.sourceNodeId = "0";
             }
             var outputPort = edge.output as SamplePort;
             var outputNode = outputPort.node as SampleNode;
             Debug.Log("outputPort.id ="+ outputPort.id);
             if(outputNode != null){
                 Debug.Log("sampleNode.outputNode id= "+outputNode.id);
+                edgeData.target = outputPort.id.ToString();
+                edgeData.targetNodeId = outputNode.id.ToString();
             }else{
                 Debug.Log("sampleNode.outputNode = null");
+                edgeData.target = "0";
+                edgeData.targetNodeId = "0";
             }
+            graphData.edges.Add(edgeData);
         }
         string result = JsonUtility.ToJson(graphData);
         
