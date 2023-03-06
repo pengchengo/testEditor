@@ -51,6 +51,20 @@ public class SampleGraphView : GraphView
             obj.initFromData(nodeInfo);
             AddElement(obj);
         }
+
+        /*foreach(var edgeInfo in graphData.edges){
+            var node1OutPut = node1.outputPort;
+            var node2InPut = node2.inputPort;
+            var edgeView = new Edge
+            {
+                //userData = edge,
+                output = node2InPut,
+                input = node1OutPut
+            };
+            edgeView.output.Connect(edgeView);
+            edgeView.input.Connect(edgeView);
+            AddElement(edgeView);
+        }*/
     }
 
     public void testCreate(){
