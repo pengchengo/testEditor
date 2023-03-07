@@ -18,5 +18,6 @@ public class SamplePort:Port
         var connectorListener = new SampleEdgeConnectorListener();
         m_EdgeConnector = new EdgeConnector<Edge>(connectorListener);
         this.AddManipulator(this.m_EdgeConnector);
+        node.portList.Add(this);
     }
 }

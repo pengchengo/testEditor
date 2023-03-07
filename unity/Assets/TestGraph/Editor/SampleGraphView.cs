@@ -38,9 +38,14 @@ public class SampleGraphView : GraphView
         //testGraphData();
     }
 
+    Dictionary<int, SampleNode> initNodeMap = new Dictionary<int, SampleNode>();
+
     public void initFromData(){
         string json = File.ReadAllText(filePath);
         GraphData graphData = JsonUtility.FromJson<GraphData>(json);
+        
+        initNodeMap.Clear();
+
         foreach(var nodeInfo in graphData.nodes){
             Type type = Type.GetType(nodeInfo.type);
             SampleNode obj = Activator.CreateInstance(type, this, int.Parse(nodeInfo.id)) as SampleNode;
@@ -49,22 +54,36 @@ public class SampleGraphView : GraphView
             var postion = obj.GetPosition();
             obj.SetPosition(new Rect(int.Parse(posList[0]), int.Parse(posList[1]), postion.width, postion.height));
             obj.initFromData(nodeInfo);
+            initNodeMap.Add(obj.id, obj);
             AddElement(obj);
         }
 
-        /*foreach(var edgeInfo in graphData.edges){
-            var node1OutPut = node1.outputPort;
-            var node2InPut = node2.inputPort;
-            var edgeView = new Edge
-            {
-                //userData = edge,
-                output = node2InPut,
-                input = node1OutPut
-            };
-            edgeView.output.Connect(edgeView);
-            edgeView.input.Connect(edgeView);
-            AddElement(edgeView);
-        }*/
+        foreach(var edgeInfo in graphData.edges){
+            SampleNode sourceNode = null;
+            SamplePort sourcePort = null;
+            if(edgeInfo.sourceNodeId != ""){
+                sourceNode = initNodeMap[int.Parse(edgeInfo.sourceNodeId)];
+                sourcePort = sourceNode.getPortById(int.Parse(edgeInfo.source));
+            }
+            SampleNode targetNode = null;
+            SamplePort targetPort = null;
+            if(edgeInfo.targetNodeId != ""){
+                targetNode = initNodeMap[int.Parse(edgeInfo.targetNodeId)];
+                targetPort = targetNode.getPortById(int.Parse(edgeInfo.target));
+            }
+            if(sourcePort != null && targetPort != null){
+                var edgeView = new Edge
+                {
+                    input = sourcePort,
+                    //userData = edge,
+                    output = targetPort
+                };
+                edgeView.output.Connect(edgeView);
+                edgeView.input.Connect(edgeView);
+                AddElement(edgeView);
+            }
+            
+        }
     }
 
     public void testCreate(){

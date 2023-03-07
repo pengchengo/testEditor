@@ -1,4 +1,6 @@
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Reflection;
 using UnityEditor;
 using UnityEditor.Experimental.GraphView;
@@ -14,6 +16,8 @@ public abstract class SampleNode : Node
     public SamplePort outputPort;
 
     public SampleGraphView graphView;
+
+    public List<SamplePort> portList = new List<SamplePort>();
     public SampleNode(SampleGraphView _graphView, int nodeId)
     {
         graphView = _graphView;
@@ -36,6 +40,15 @@ public abstract class SampleNode : Node
         //outputPort = Port.Create<Edge>(Orientation.Horizontal, Direction.Output, Port.Capacity.Single, typeof(Port));
         outputPort = new SamplePort(this, Orientation.Horizontal, Direction.Output, Port.Capacity.Single, typeof(Port));
         outputContainer.Add(outputPort);
+    }
+
+    public SamplePort getPortById(int id){
+        foreach(var port in portList){
+            if(port.id == id){
+                return port;
+            }
+        }
+        return null;
     }
 
     public Property getValueFromNodeData(NodeData nodeData, string name){
