@@ -3,12 +3,12 @@ using UnityEngine;
  
 //--监听后缀名是"anything"的自定义文件
 /*[UnityEditor.AssetImporters.ScriptedImporter(1, "graph")]
-public class SampleGraphImpoter : UnityEditor.AssetImporters.ScriptedImporter
+public class LpGraphImpoter : UnityEditor.AssetImporters.ScriptedImporter
 {
     public override void OnImportAsset(UnityEditor.AssetImporters.AssetImportContext ctx)
     {
         var pos = JsonUtility.FromJson<Vector3>(File.ReadAllText(ctx.assetPath));
-        SampleGraphEditorWindow.Open();
+        LpGraphEditorWindow.Open();
     }
 }*/
 
@@ -34,7 +34,7 @@ public class SetAssetsPathFilesDefaultOpenMode
         //指定打开文件类型
         if (name.EndsWith(".graph"))
         {
-            SampleGraphEditorWindow.Open(path);
+            LpGraphEditorWindow.Open(path);
             return true;
         }
         return false;

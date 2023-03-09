@@ -6,14 +6,14 @@ using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public class SampleGraphView : GraphView
+public class LpGraphView : GraphView
 {
     static int nodeId = 1;
-    SampleGraphEditorWindow window;
+    LpGraphEditorWindow window;
     string filePath = "";
-    public SampleGraphView(SampleGraphEditorWindow _window, string path) : base()
+    public LpGraphView(LpGraphEditorWindow _window, string path) : base()
     {
-        Debug.Log("SampleGraphView path="+path);
+        Debug.Log("LpGraphView path="+path);
         filePath = path;
         window = _window;
         SetupZoom(ContentZoomer.DefaultMinScale, ContentZoomer.DefaultMaxScale);
@@ -21,10 +21,10 @@ public class SampleGraphView : GraphView
 
         /*nodeCreationRequest += context =>
         {
-            AddElement(new SampleNode());
+            AddElement(new LpNode());
         };*/
 
-        var menuWindowProvider = ScriptableObject.CreateInstance<SampleSearchMenuWindowProvider>();
+        var menuWindowProvider = ScriptableObject.CreateInstance<LpSearchMenuWindowProvider>();
         menuWindowProvider.OnSelectEntryHandler = OnMenuSelectEntry;
 
         nodeCreationRequest += context =>
@@ -38,7 +38,7 @@ public class SampleGraphView : GraphView
         //testGraphData();
     }
 
-    Dictionary<int, SampleNode> initNodeMap = new Dictionary<int, SampleNode>();
+    Dictionary<int, LpNode> initNodeMap = new Dictionary<int, LpNode>();
 
     public void initFromData(){
         string json = File.ReadAllText(filePath);
@@ -48,25 +48,25 @@ public class SampleGraphView : GraphView
 
         foreach(var nodeInfo in graphData.nodes){
             Type type = Type.GetType(nodeInfo.type);
-            SampleNode obj = Activator.CreateInstance(type, this, int.Parse(nodeInfo.id)) as SampleNode;
-            SampleGraphView.nodeId = int.Parse(nodeInfo.id)+1;
+            LpNode obj = Activator.CreateInstance(type, this, int.Parse(nodeInfo.id)) as LpNode;
+            LpGraphView.nodeId = int.Parse(nodeInfo.id)+1;
             var posList = nodeInfo.pos.Split (',');
             var postion = obj.GetPosition();
-            obj.SetPosition(new Rect(int.Parse(posList[0]), int.Parse(posList[1]), postion.width, postion.height));
+            obj.SetPosition(new Rect(float.Parse(posList[0]), float.Parse(posList[1]), postion.width, postion.height));
             obj.initFromData(nodeInfo);
             initNodeMap.Add(obj.id, obj);
             AddElement(obj);
         }
 
         foreach(var edgeInfo in graphData.edges){
-            SampleNode sourceNode = null;
-            SamplePort sourcePort = null;
+            LpNode sourceNode = null;
+            LpPort sourcePort = null;
             if(edgeInfo.sourceNodeId != ""){
                 sourceNode = initNodeMap[int.Parse(edgeInfo.sourceNodeId)];
                 sourcePort = sourceNode.getPortById(int.Parse(edgeInfo.source));
             }
-            SampleNode targetNode = null;
-            SamplePort targetPort = null;
+            LpNode targetNode = null;
+            LpPort targetPort = null;
             if(edgeInfo.targetNodeId != ""){
                 targetNode = initNodeMap[int.Parse(edgeInfo.targetNodeId)];
                 targetPort = targetNode.getPortById(int.Parse(edgeInfo.target));
@@ -87,17 +87,17 @@ public class SampleGraphView : GraphView
     }
 
     public void testCreate(){
-        var node1 = new SampleChildNode(this, SampleGraphView.nodeId++);
-        var node2 = new SampleChild2Node(this, SampleGraphView.nodeId++);
+        var node1 = new LpChildNode(this, LpGraphView.nodeId++);
+        var node2 = new LpChild2Node(this, LpGraphView.nodeId++);
         var propertyList = node1.GetType().GetProperties();
         foreach(var propertyInfo in propertyList){
-            foreach(var attribute in propertyInfo.GetCustomAttributes(typeof(SampleBaseControlAttribute), false)){
+            foreach(var attribute in propertyInfo.GetCustomAttributes(typeof(LpBaseControlAttribute), false)){
                 //Debug.Log("node1 propertyInfo.Name="+propertyInfo.Name);
                 //Debug.Log("node1 propertyInfo.GetValue(node)="+propertyInfo.GetValue(node1));
             }
         }
         foreach (var fieldInfo in node1.GetType().GetFields(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic)){
-            foreach(var attribute in fieldInfo.GetCustomAttributes(typeof(SampleBaseControlAttribute), false)){
+            foreach(var attribute in fieldInfo.GetCustomAttributes(typeof(LpBaseControlAttribute), false)){
                 var propertyType = fieldInfo.FieldType;
                 if(propertyType == typeof(string)){
                     fieldInfo.SetValue(node1, "peter");
@@ -149,18 +149,18 @@ public class SampleGraphView : GraphView
     }
 
     public void Save(){
-        Debug.Log("SampleGraphView Save");
+        Debug.Log("LpGraphView Save");
         var graphData = new GraphData();
         int num = 0;
         foreach(var node in this.nodes){
             num++;
             var nodeData = new NodeData();
-            nodeData.id = (node as SampleNode).id.ToString();
+            nodeData.id = (node as LpNode).id.ToString();
             nodeData.type = node.GetType().ToString();
             nodeData.pos = node.GetPosition().x.ToString()+","+node.GetPosition().y.ToString();
             var propertyList = node.GetType().GetProperties();
             foreach(var propertyInfo in propertyList){
-                foreach(var attribute in propertyInfo.GetCustomAttributes(typeof(SampleBaseControlAttribute), false)){
+                foreach(var attribute in propertyInfo.GetCustomAttributes(typeof(LpBaseControlAttribute), false)){
                     //Debug.Log("propertyInfo.Name="+propertyInfo.Name);
                     //Debug.Log("propertyInfo.GetValue(node)="+propertyInfo.GetValue(node));
                     var propertyData = new Property();
@@ -171,7 +171,7 @@ public class SampleGraphView : GraphView
                 }
             }
             foreach (var fieldInfo in node.GetType().GetFields(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic)){
-                foreach(var attribute in fieldInfo.GetCustomAttributes(typeof(SampleBaseControlAttribute), false)){
+                foreach(var attribute in fieldInfo.GetCustomAttributes(typeof(LpBaseControlAttribute), false)){
                     var propertyType = fieldInfo.FieldType;
                     var propertyData = new Property();
                     propertyData.name = fieldInfo.Name;
@@ -187,8 +187,8 @@ public class SampleGraphView : GraphView
 
         foreach(var edge in this.edges){
             var edgeData = new EdgeData();
-            var inputPort = edge.input as SamplePort;
-            var inputNode = inputPort.node as SampleNode;
+            var inputPort = edge.input as LpPort;
+            var inputNode = inputPort.node as LpNode;
             Debug.Log("inputPort.id ="+ inputPort.id);
             if(inputNode != null){
                 //Debug.Log("sampleNode.inputNode id= "+inputNode.id);
@@ -199,8 +199,8 @@ public class SampleGraphView : GraphView
                 edgeData.source = "0";
                 edgeData.sourceNodeId = "0";
             }
-            var outputPort = edge.output as SamplePort;
-            var outputNode = outputPort.node as SampleNode;
+            var outputPort = edge.output as LpPort;
+            var outputNode = outputPort.node as LpNode;
             Debug.Log("outputPort.id ="+ outputPort.id);
             if(outputNode != null){
                 Debug.Log("sampleNode.outputNode id= "+outputNode.id);
@@ -216,7 +216,7 @@ public class SampleGraphView : GraphView
         string result = JsonUtility.ToJson(graphData);
         
         //string FileUrl = Application.dataPath + "/TestGraph/sampleData.txt";
-        Debug.Log("SampleGraphView Save filePath="+filePath);
+        Debug.Log("LpGraphView Save filePath="+filePath);
         File.WriteAllText(filePath, result);
     }
 
@@ -228,13 +228,13 @@ public class SampleGraphView : GraphView
             var nodeData = new NodeData();
             var propertyList = node.GetType().GetProperties();
             foreach(var propertyInfo in propertyList){
-                foreach(var attribute in propertyInfo.GetCustomAttributes(typeof(SampleBaseControlAttribute), false)){
+                foreach(var attribute in propertyInfo.GetCustomAttributes(typeof(LpBaseControlAttribute), false)){
                     //Debug.Log("propertyInfo.Name="+propertyInfo.Name);
                     //Debug.Log("propertyInfo.GetValue(node)="+propertyInfo.GetValue(node));
                 }
             }
             foreach (var fieldInfo in node.GetType().GetFields(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic)){
-                foreach(var attribute in fieldInfo.GetCustomAttributes(typeof(SampleBaseControlAttribute), false)){
+                foreach(var attribute in fieldInfo.GetCustomAttributes(typeof(LpBaseControlAttribute), false)){
                     var propertyType = fieldInfo.FieldType;
                     //Debug.Log("fieldInfo.Name="+fieldInfo.Name);
                     //Debug.Log("fieldInfo.GetValue(node)="+fieldInfo.GetValue(node));
@@ -262,7 +262,8 @@ public class SampleGraphView : GraphView
 
     private void CreateNode(Type type, Vector2 pos = default)
     {
-        SampleChildNode nodeView = new SampleChildNode(this, SampleGraphView.nodeId++);
+        LpNode nodeView = Activator.CreateInstance(type, this, LpGraphView.nodeId++) as LpNode;
+        nodeView.initFromData(new NodeData());
         nodeView.SetPosition(new Rect(pos, nodeView.GetPosition().size));
         this.AddElement(nodeView);
     }

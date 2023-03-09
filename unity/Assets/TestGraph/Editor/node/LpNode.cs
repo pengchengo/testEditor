@@ -7,42 +7,42 @@ using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public abstract class SampleNode : Node
+public abstract class LpNode : Node
 {
     public int id;
     public int portId;
     public bool testBool{ get; set; } = true;
-    public SamplePort inputPort;
-    public SamplePort outputPort;
+    public LpPort inputPort;
+    public LpPort outputPort;
 
-    public SampleGraphView graphView;
+    public LpGraphView graphView;
 
-    public List<SamplePort> portList = new List<SamplePort>();
-    public SampleNode(SampleGraphView _graphView, int nodeId)
+    public List<LpPort> portList = new List<LpPort>();
+    public LpNode(LpGraphView _graphView, int nodeId)
     {
         graphView = _graphView;
         id = nodeId;
-        title = "Sample";
+        title = "Lp";
         portId = 1;
         testBool = true;
 
         var contents = this.Q("contents");
-        var styleSheet = AssetDatabase.LoadAssetAtPath<StyleSheet>("Assets/TestGraph/Editor/Resources/styles/SampleView.uss");
+        var styleSheet = AssetDatabase.LoadAssetAtPath<StyleSheet>("Assets/TestGraph/Editor/Resources/styles/LpView.uss");
         //Debug.Log("styleSheet=");
         //Debug.Log(styleSheet);
         this.styleSheets.Add(styleSheet);
-        //contents.AddStyleSheetPath("styles/SampleView");
+        //contents.AddStyleSheetPath("styles/LpView");
 
         //inputPort = Port.Create<Edge>(Orientation.Horizontal, Direction.Input, Port.Capacity.Single, typeof(Port));
-        inputPort = new SamplePort(this, Orientation.Horizontal, Direction.Input, Port.Capacity.Single, typeof(Port));
+        inputPort = new LpPort(this, Orientation.Horizontal, Direction.Input, Port.Capacity.Single, typeof(Port));
         inputContainer.Add(inputPort);
  
         //outputPort = Port.Create<Edge>(Orientation.Horizontal, Direction.Output, Port.Capacity.Single, typeof(Port));
-        outputPort = new SamplePort(this, Orientation.Horizontal, Direction.Output, Port.Capacity.Single, typeof(Port));
+        outputPort = new LpPort(this, Orientation.Horizontal, Direction.Output, Port.Capacity.Single, typeof(Port));
         outputContainer.Add(outputPort);
     }
 
-    public SamplePort getPortById(int id){
+    public LpPort getPortById(int id){
         foreach(var port in portList){
             if(port.id == id){
                 return port;
@@ -65,14 +65,14 @@ public abstract class SampleNode : Node
         var propertyList = this.GetType().GetProperties();
         //Debug.Log("property=");
         foreach(var propertyInfo in propertyList){
-            foreach(var attribute in propertyInfo.GetCustomAttributes(typeof(SampleBaseControlAttribute), false)){
+            foreach(LpControlAttribute attribute in propertyInfo.GetCustomAttributes(typeof(LpBaseControlAttribute), false)){
                 var viewCont = new VisualElement();
                 Property data = this.getValueFromNodeData(nodeData, propertyInfo.Name);
                 if(data != null){
                     propertyInfo.SetValue(this, ObjectUtils.GetObjValue(data));
                 }
                 viewCont.AddToClassList("ControlField");
-                viewCont.Add(new Label(propertyInfo.Name) {name = propertyInfo.Name});
+                viewCont.Add(new Label(attribute.name) {name = attribute.name});
                 var propertyType = propertyInfo.PropertyType;
                 if (propertyType == typeof(bool))
                     viewCont.Add(AddControl(this, new Toggle() {name = propertyInfo.Name}, propertyInfo));
@@ -84,14 +84,14 @@ public abstract class SampleNode : Node
         }
         //Debug.Log("property end");
         foreach (var fieldInfo in this.GetType().GetFields(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic)){
-            foreach(var attribute in fieldInfo.GetCustomAttributes(typeof(SampleBaseControlAttribute), false)){
+            foreach(LpControlAttribute attribute in fieldInfo.GetCustomAttributes(typeof(LpBaseControlAttribute), false)){
                 var viewCont = new VisualElement();
                 viewCont.AddToClassList("ControlField");
                 Property data = this.getValueFromNodeData(nodeData, fieldInfo.Name);
                 if(data != null){
                     fieldInfo.SetValue(this, ObjectUtils.GetObjValue(data));
                 }
-                viewCont.Add(new Label(fieldInfo.Name) {name = fieldInfo.Name});
+                viewCont.Add(new Label(attribute.name) {name = attribute.name});
 
                 var propertyType = fieldInfo.FieldType;
                 if (propertyType == typeof(bool))
@@ -105,7 +105,7 @@ public abstract class SampleNode : Node
         //Debug.Log("field end");
     }
 
-    private BaseField<T> AddControl<T>(SampleNode node, BaseField<T> field, PropertyInfo property)
+    private BaseField<T> AddControl<T>(LpNode node, BaseField<T> field, PropertyInfo property)
     {
         field.value = (T) property.GetValue(node);
         field.RegisterValueChangedCallback(e =>
@@ -118,7 +118,7 @@ public abstract class SampleNode : Node
         return field;
     }
 
-    private BaseField<T> AddControl<T>(SampleNode node, BaseField<T> field, FieldInfo property)
+    private BaseField<T> AddControl<T>(LpNode node, BaseField<T> field, FieldInfo property)
     {
         field.value = (T) property.GetValue(node);
         field.RegisterValueChangedCallback(e =>

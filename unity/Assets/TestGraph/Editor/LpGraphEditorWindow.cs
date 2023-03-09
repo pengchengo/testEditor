@@ -2,23 +2,23 @@ using UnityEditor;
 using UnityEngine;
  using System.Collections.Generic;
 
-public class SampleGraphEditorWindow : EditorWindow
+public class LpGraphEditorWindow : EditorWindow
 {
-    static Dictionary<string, SampleGraphView> grapMap = new Dictionary<string, SampleGraphView>();
+    static Dictionary<string, LpGraphView> grapMap = new Dictionary<string, LpGraphView>();
 
     static string curPath = "";
 
-    SampleGraphView curGraphView = null;
-    [MenuItem("Window/Open SampleGraphView")]
+    LpGraphView curGraphView = null;
+    [MenuItem("Window/Open LpGraphView")]
     public static void Open(string path)
     {
         curPath = path;
-        GetWindow<SampleGraphEditorWindow>("SampleGraphView");
+        GetWindow<LpGraphEditorWindow>("LpGraphView");
     }
 
     void OnEnable()
     {
-        curGraphView = new SampleGraphView(this, SampleGraphEditorWindow.curPath){
+        curGraphView = new LpGraphView(this, LpGraphEditorWindow.curPath){
           style  = { flexGrow = 1}
         };
         rootVisualElement.Add(curGraphView
@@ -27,7 +27,7 @@ public class SampleGraphEditorWindow : EditorWindow
     }
 
     void OnDestroy(){
-        Debug.Log("SampleGraphEditorWindow OnDestroy ");
+        Debug.Log("LpGraphEditorWindow OnDestroy ");
         if(curGraphView != null){
             curGraphView.Save();
             curGraphView = null;

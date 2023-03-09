@@ -5,13 +5,13 @@ using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using static UnityEditor.Experimental.GraphView.Port;
 
-public class SampleEdgeConnectorListener : IEdgeConnectorListener
+public class LpEdgeConnectorListener : IEdgeConnectorListener
 {
     private GraphViewChange m_GraphViewChange;
     private List<Edge> m_EdgesToCreate;
     private List<GraphElement> m_EdgesToDelete;
 
-    public SampleEdgeConnectorListener()
+    public LpEdgeConnectorListener()
     {
         m_EdgesToCreate = new List<Edge>();
         m_EdgesToDelete = new List<GraphElement>();
