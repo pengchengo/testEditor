@@ -17,7 +17,10 @@ public class LpGraphView : GraphView
         filePath = path;
         window = _window;
         SetupZoom(ContentZoomer.DefaultMinScale, ContentZoomer.DefaultMaxScale);
-        this.AddManipulator(new SelectionDragger());
+        this.AddManipulator(new ContentDragger());
+		this.AddManipulator(new SelectionDragger());
+		this.AddManipulator(new RectangleSelector());
+		this.AddManipulator(new ClickSelector());
 
         /*nodeCreationRequest += context =>
         {
@@ -87,7 +90,7 @@ public class LpGraphView : GraphView
     }
 
     public void testCreate(){
-        var node1 = new LpChildNode(this, LpGraphView.nodeId++);
+        /*var node1 = new LpChildNode(this, LpGraphView.nodeId++);
         var node2 = new LpChild2Node(this, LpGraphView.nodeId++);
         var propertyList = node1.GetType().GetProperties();
         foreach(var propertyInfo in propertyList){
@@ -123,7 +126,7 @@ public class LpGraphView : GraphView
         };
         edgeView.output.Connect(edgeView);
 		edgeView.input.Connect(edgeView);
-        AddElement(edgeView);
+        AddElement(edgeView);*/
     }
 
     public void testGraphData(){

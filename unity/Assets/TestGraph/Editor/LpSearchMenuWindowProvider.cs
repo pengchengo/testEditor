@@ -34,7 +34,6 @@ public class LpSearchMenuWindowProvider : ScriptableObject, ISearchWindowProvide
                 var curTree = rootTree;
                 for(int i = 0; i < sArray.Length-1; i++){
                     name = sArray[i];
-                    Debug.Log("name="+name);
                     LpSeachTree childTree = null;
                     foreach(var child in curTree.childs){
                         if(child.name == name){
@@ -60,10 +59,8 @@ public class LpSearchMenuWindowProvider : ScriptableObject, ISearchWindowProvide
     }
 
     public void buildTree(List<SearchTreeEntry> entries, LpSeachTree tree, int l){
-        Debug.Log("treeName="+tree.name);
         entries.Add(new SearchTreeGroupEntry(new GUIContent(tree.name)){ level = l });
         foreach(var item in tree.nodeList){
-            Debug.Log("itemName="+item.Name);
             var attributes = item.GetCustomAttributes(typeof(LpTitleAttribute), true);
             string path = (attributes[0] as LpTitleAttribute).name;
             string[] sArray = path.Split(new char[1] {'/'});

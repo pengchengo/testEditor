@@ -43,15 +43,14 @@
      <Compile Include="Assets/TestGraph/Editor/LpPort.cs" />
      <Compile Include="Assets/TestGraph/Editor/LpEdgeConnectorListener.cs" />
      <Compile Include="Assets/TestGraph/Editor/attribute/LpBaseControlAttribute.cs" />
+     <Compile Include="Assets/TestGraph/Editor/node/LpStartNode.cs" />
      <Compile Include="Assets/TestGraph/Editor/attribute/LpControlAttribute.cs" />
-     <Compile Include="Assets/TestGraph/Editor/node/LpChild2Node.cs" />
      <Compile Include="Assets/TestGraph/Editor/OnAssetsEvent.cs" />
      <Compile Include="Assets/TestGraph/Editor/LpSearchMenuWindowProvider.cs" />
      <Compile Include="Assets/TestGraph/Editor/node/LpCompareNode.cs" />
      <Compile Include="Assets/TestGraph/Editor/LpGraphView.cs" />
      <Compile Include="Assets/TestGraph/Editor/attribute/LpTitleAttribute.cs" />
      <Compile Include="Assets/TestGraph/Editor/SetAssetsPathFilesDefaultOpenMode.cs" />
-     <Compile Include="Assets/TestGraph/Editor/node/LpChildNode.cs" />
      <Compile Include="Assets/TestGraph/Editor/node/LpNode.cs" />
      <Compile Include="Assets/TestGraph/Editor/LpGraphEditorWindow.cs" />
      <Compile Include="Assets/TestGraph/Editor/GraphJsonData.cs" />

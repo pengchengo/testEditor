@@ -11,7 +11,7 @@ public class LpPort:Port
     static int staticId = 1;
     public int id;
 
-    public LpPort(LpNode node, Orientation portOrientation, Direction portDirection, Capacity portCapacity, Type type): base(portOrientation, portDirection, portCapacity, type)
+    public LpPort(LpNode node, Orientation portOrientation, Direction portDirection, Capacity portCapacity, Type type, string name): base(portOrientation, portDirection, portCapacity, type)
     {
         id = node.portId;
         node.portId = node.portId + 1;
@@ -19,5 +19,6 @@ public class LpPort:Port
         m_EdgeConnector = new EdgeConnector<Edge>(connectorListener);
         this.AddManipulator(this.m_EdgeConnector);
         node.portList.Add(this);
+        portName = name;
     }
 }

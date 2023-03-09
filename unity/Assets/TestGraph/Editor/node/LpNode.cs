@@ -12,9 +12,7 @@ public abstract class LpNode : Node
     public int id;
     public int portId;
     public bool testBool{ get; set; } = true;
-    public LpPort inputPort;
-    public LpPort outputPort;
-
+    
     public LpGraphView graphView;
 
     public List<LpPort> portList = new List<LpPort>();
@@ -34,12 +32,6 @@ public abstract class LpNode : Node
         //contents.AddStyleSheetPath("styles/LpView");
 
         //inputPort = Port.Create<Edge>(Orientation.Horizontal, Direction.Input, Port.Capacity.Single, typeof(Port));
-        inputPort = new LpPort(this, Orientation.Horizontal, Direction.Input, Port.Capacity.Single, typeof(Port));
-        inputContainer.Add(inputPort);
- 
-        //outputPort = Port.Create<Edge>(Orientation.Horizontal, Direction.Output, Port.Capacity.Single, typeof(Port));
-        outputPort = new LpPort(this, Orientation.Horizontal, Direction.Output, Port.Capacity.Single, typeof(Port));
-        outputContainer.Add(outputPort);
     }
 
     public LpPort getPortById(int id){
