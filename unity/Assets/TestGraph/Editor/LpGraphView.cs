@@ -34,7 +34,6 @@ public class LpGraphView : GraphView
         {
             SearchWindow.Open(new SearchWindowContext(context.screenMousePosition), menuWindowProvider);
         };
-
         
         this.initFromData();
 
@@ -49,6 +48,16 @@ public class LpGraphView : GraphView
         
         initNodeMap.Clear();
 
+        /*foreach(var property in graphData.properties){
+            if(property.name == "posScale"){
+                Debug.Log("property.value="+property.value);
+                string[] sArray= property.value.Split(new char[1] {','});
+                Debug.Log("sArray=");
+                Debug.Log(sArray);
+                this.UpdateViewTransform(new Vector3(float.Parse(sArray[0]), float.Parse(sArray[1]), 0), new Vector3(float.Parse(sArray[2]), float.Parse(sArray[2]), 1));
+            }
+        }*/
+        
         foreach(var nodeInfo in graphData.nodes){
             Type type = Type.GetType(nodeInfo.type);
             LpNode obj = Activator.CreateInstance(type, this, int.Parse(nodeInfo.id)) as LpNode;
@@ -87,6 +96,8 @@ public class LpGraphView : GraphView
             }
             
         }
+
+        this.CalculateRectToFitAll(this);
     }
 
     public void testCreate(){
@@ -154,6 +165,10 @@ public class LpGraphView : GraphView
     public void Save(){
         Debug.Log("LpGraphView Save");
         var graphData = new GraphData();
+        var posScale = new Property();
+        posScale.name = "posScale";
+        posScale.value = this.transform.position.x.ToString()+"," + this.transform.position.y.ToString()+","+this.scale.ToString();
+        graphData.properties.Add(posScale);
         int num = 0;
         foreach(var node in this.nodes){
             num++;
