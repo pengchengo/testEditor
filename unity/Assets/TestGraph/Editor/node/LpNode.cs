@@ -70,6 +70,8 @@ public abstract class LpNode : Node
                     viewCont.Add(AddControl(this, new Toggle() {name = propertyInfo.Name}, propertyInfo));
                 else if (propertyType == typeof(string))
                     viewCont.Add(AddControl(this, new TextField() {name = propertyInfo.Name}, propertyInfo));
+                else if (propertyType == typeof(float))
+                    viewCont.Add(AddControl(this, new FloatField() {name = propertyInfo.Name}, propertyInfo));
                 contents.Add(viewCont);
                 //Debug.Log(propertyInfo.Name);
             }
@@ -90,6 +92,8 @@ public abstract class LpNode : Node
                     viewCont.Add(AddControl(this, new Toggle() {name = fieldInfo.Name}, fieldInfo));
                 else if (propertyType == typeof(string))
                     viewCont.Add(AddControl(this, new TextField() {name = fieldInfo.Name}, fieldInfo));
+                else if (propertyType == typeof(float))
+                    viewCont.Add(AddControl(this, new FloatField() {name = fieldInfo.Name}, fieldInfo));
                 contents.Add(viewCont);
                 //Debug.Log(fieldInfo.Name);
             }
