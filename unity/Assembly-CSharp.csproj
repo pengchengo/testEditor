@@ -40,9 +40,15 @@
     <Analyzer Include="/Applications/Unity/Hub/Editor/2022.2.4f1c1/Unity.app/Contents/Tools/Unity.SourceGenerators/Unity.Properties.SourceGenerator.dll" />
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets/TestGraph/runtime/LpRunRoot.cs" />
-     <Compile Include="Assets/TestGraph/runtime/node/LpRunNode.cs" />
-     <Compile Include="Assets/TestGraph/runtime/slot/LpRunSlot.cs" />
+     <Compile Include="Assets/TestGraph/Runtime/node/LpDebugNodeRT.cs" />
+     <Compile Include="Assets/TestGraph/Runtime/slot/LPRunEdge.cs" />
+     <Compile Include="Assets/TestGraph/Runtime/node/LpRunNode.cs" />
+     <Compile Include="Assets/TestGraph/Runtime/node/LpCompareNodeRT.cs" />
+     <Compile Include="Assets/TestGraph/Runtime/LpRunRoot.cs" />
+     <Compile Include="Assets/TestGraph/Common/GraphJsonData.cs" />
+     <Compile Include="Assets/TestGraph/Runtime/slot/LpRunPort.cs" />
+     <Compile Include="Assets/TestGraph/Runtime/node/LpStartNodeRT.cs" />
+     <Compile Include="Assets/TestGraph/Runtime/node/LpFloatNodeRT.cs" />
     <Reference Include="UnityEngine">
         <HintPath>/Applications/Unity/Hub/Editor/2022.2.4f1c1/Unity.app/Contents/Managed/UnityEngine/UnityEngine.dll</HintPath>
     </Reference>

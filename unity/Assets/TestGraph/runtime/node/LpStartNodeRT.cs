@@ -2,17 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class LpRunSlot : MonoBehaviour
+public class LpStartNodeRT : LpRunNode
 {
     // Start is called before the first frame update
-    void Start()
+    public override void Enter(LPRunEdge edge = null)
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        this.FlowFirst();
     }
 }

@@ -55,7 +55,6 @@
      <Compile Include="Assets/TestGraph/Editor/node/LpNode.cs" />
      <Compile Include="Assets/TestGraph/Editor/LpGraphEditorWindow.cs" />
      <Compile Include="Assets/TestGraph/Editor/node/LpDebugNode.cs" />
-     <Compile Include="Assets/TestGraph/Editor/GraphJsonData.cs" />
      <None Include="Assets/MobileDependencyResolver/Editor/mobile-dependency-resolver.txt" />
      <None Include="Assets/TestGraph/Editor/Resources/styles/LpView.uss" />
      <None Include="Assets/Editor/MediationAdapterDependencies.xml" />
@@ -898,6 +897,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="Assembly-CSharp.csproj">
+      <Project>{e189dac3-c670-6c7d-993e-c8f831d35880}</Project>
+      <Name>Assembly-CSharp</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.

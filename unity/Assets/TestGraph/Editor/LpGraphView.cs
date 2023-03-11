@@ -170,7 +170,7 @@ public class LpGraphView : GraphView
         posScale.value = this.transform.position.x.ToString()+"," + this.transform.position.y.ToString()+","+this.scale.ToString();
         graphData.properties.Add(posScale);
         int num = 0;
-        foreach(var node in this.nodes){
+        foreach(LpNode node in this.nodes){
             num++;
             var nodeData = new NodeData();
             nodeData.id = (node as LpNode).id.ToString();
@@ -200,14 +200,25 @@ public class LpGraphView : GraphView
                     //Debug.Log("fieldInfo.GetValue(node)="+fieldInfo.GetValue(node));
                 }
             }
+            foreach(LpPort port in node.portList){
+                SlotData slot = new SlotData();
+                slot.name = port.portName;
+                nodeData.slots.Add(slot);
+            }
             graphData.nodes.Add(nodeData);
         }
 
         foreach(var edge in this.edges){
             var edgeData = new EdgeData();
             var inputPort = edge.input as LpPort;
+            var outputPort = edge.output as LpPort;
+            /*if(inputPort.direction == Direction.Output){
+                Debug.Log("交换顺序");
+                inputPort = edge.output as LpPort;
+                outputPort = edge.input as LpPort;
+            }*/
             var inputNode = inputPort.node as LpNode;
-            Debug.Log("inputPort.id ="+ inputPort.id);
+            //Debug.Log("inputPort.id ="+ inputPort.id);
             if(inputNode != null){
                 //Debug.Log("sampleNode.inputNode id= "+inputNode.id);
                 edgeData.source = inputPort.id.ToString();
@@ -217,15 +228,14 @@ public class LpGraphView : GraphView
                 edgeData.source = "0";
                 edgeData.sourceNodeId = "0";
             }
-            var outputPort = edge.output as LpPort;
             var outputNode = outputPort.node as LpNode;
-            Debug.Log("outputPort.id ="+ outputPort.id);
+            //Debug.Log("outputPort.id ="+ outputPort.id);
             if(outputNode != null){
-                Debug.Log("sampleNode.outputNode id= "+outputNode.id);
+                //Debug.Log("sampleNode.outputNode id= "+outputNode.id);
                 edgeData.target = outputPort.id.ToString();
                 edgeData.targetNodeId = outputNode.id.ToString();
             }else{
-                Debug.Log("sampleNode.outputNode = null");
+                //Debug.Log("sampleNode.outputNode = null");
                 edgeData.target = "0";
                 edgeData.targetNodeId = "0";
             }

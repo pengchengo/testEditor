@@ -139,7 +139,7 @@ public class Property
 public class SlotData
 {
     public string name;
-    public object value;
+    //public object value;
 }
 
 [Serializable]
