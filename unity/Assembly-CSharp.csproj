@@ -40,6 +40,7 @@
     <Analyzer Include="/Applications/Unity/Hub/Editor/2022.2.4f1c1/Unity.app/Contents/Tools/Unity.SourceGenerators/Unity.Properties.SourceGenerator.dll" />
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets/TestGraph/Runtime/node/LpDistanceNodeRT.cs" />
      <Compile Include="Assets/TestGraph/Runtime/node/LpDebugNodeRT.cs" />
      <Compile Include="Assets/TestGraph/Runtime/slot/LPRunEdge.cs" />
      <Compile Include="Assets/TestGraph/Runtime/node/LpRunNode.cs" />
@@ -47,6 +48,7 @@
      <Compile Include="Assets/TestGraph/Runtime/LpRunRoot.cs" />
      <Compile Include="Assets/TestGraph/Common/GraphJsonData.cs" />
      <Compile Include="Assets/TestGraph/Runtime/slot/LpRunPort.cs" />
+     <Compile Include="Assets/TestGraph/Runtime/node/LpVector3NodeRT.cs" />
      <Compile Include="Assets/TestGraph/Runtime/node/LpStartNodeRT.cs" />
      <Compile Include="Assets/TestGraph/Runtime/node/LpFloatNodeRT.cs" />
     <Reference Include="UnityEngine">

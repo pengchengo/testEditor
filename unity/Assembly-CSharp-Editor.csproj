@@ -42,6 +42,8 @@
   <ItemGroup>
      <Compile Include="Assets/TestGraph/Editor/LpPort.cs" />
      <Compile Include="Assets/TestGraph/Editor/LpEdgeConnectorListener.cs" />
+     <Compile Include="Assets/TestGraph/Editor/node/LpDistanceNode.cs" />
+     <Compile Include="Assets/TestGraph/Editor/node/LpVector3Node.cs" />
      <Compile Include="Assets/TestGraph/Editor/node/LpFloatNode.cs" />
      <Compile Include="Assets/TestGraph/Editor/attribute/LpBaseControlAttribute.cs" />
      <Compile Include="Assets/TestGraph/Editor/node/LpStartNode.cs" />

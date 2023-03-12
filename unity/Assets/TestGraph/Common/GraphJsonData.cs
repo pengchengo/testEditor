@@ -29,6 +29,11 @@ public class ObjectUtils
         else if (info.type == ObjectType.Double) return double.Parse(info.value);
         else if (info.type == ObjectType.Bool) return bool.Parse(info.value);
         else if (info.type == ObjectType.String) return info.value;
+        else if (info.type == ObjectType.Vec3){
+            string content = info.value.Substring(1, info.value.Length-2);
+            string[] sArray = content.Split(",");
+            return new Vector3(float.Parse(sArray[0]), float.Parse(sArray[1]), float.Parse(sArray[2]));
+        } 
         else return info.value;
     }
 
