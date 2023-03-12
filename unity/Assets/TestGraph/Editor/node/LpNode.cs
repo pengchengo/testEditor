@@ -9,6 +9,8 @@ using UnityEngine.UIElements;
 
 public abstract class LpNode : Node
 {
+    public const string ValueFieldName = "value-field";
+    public const string ControlLabelName = "control-label";
     public int id;
     public int portId;
     public bool testBool{ get; set; } = true;
@@ -64,16 +66,16 @@ public abstract class LpNode : Node
                     propertyInfo.SetValue(this, ObjectUtils.GetObjValue(data));
                 }
                 viewCont.AddToClassList("ControlField");
-                viewCont.Add(new Label(attribute.name) {name = attribute.name});
+                viewCont.Add(new Label(attribute.name) {name = ControlLabelName});
                 var propertyType = propertyInfo.PropertyType;
                 if (propertyType == typeof(bool))
-                    viewCont.Add(AddControl(this, new Toggle() {name = propertyInfo.Name}, propertyInfo));
+                    viewCont.Add(AddControl(this, new Toggle() {name = ValueFieldName}, propertyInfo));
                 else if (propertyType == typeof(string))
-                    viewCont.Add(AddControl(this, new TextField() {name = propertyInfo.Name}, propertyInfo));
+                    viewCont.Add(AddControl(this, new TextField() {name = ValueFieldName}, propertyInfo));
                 else if (propertyType == typeof(float))
-                    viewCont.Add(AddControl(this, new FloatField() {name = propertyInfo.Name}, propertyInfo));
+                    viewCont.Add(AddControl(this, new FloatField() {name = ValueFieldName}, propertyInfo));
                 else if (propertyType == typeof(Vector3))
-                    viewCont.Add(AddControl(this, new Vector3Field() {name = propertyInfo.Name}, propertyInfo));
+                    viewCont.Add(AddControl(this, new Vector3Field() {name = ValueFieldName}, propertyInfo));
                 contents.Add(viewCont);
                 //Debug.Log(propertyInfo.Name);
             }
@@ -87,17 +89,17 @@ public abstract class LpNode : Node
                 if(data != null){
                     fieldInfo.SetValue(this, ObjectUtils.GetObjValue(data));
                 }
-                viewCont.Add(new Label(attribute.name) {name = attribute.name});
+                viewCont.Add(new Label(attribute.name) {name = ControlLabelName});
 
                 var propertyType = fieldInfo.FieldType;
                 if (propertyType == typeof(bool))
-                    viewCont.Add(AddControl(this, new Toggle() {name = fieldInfo.Name}, fieldInfo));
+                    viewCont.Add(AddControl(this, new Toggle() {name = ValueFieldName}, fieldInfo));
                 else if (propertyType == typeof(string))
-                    viewCont.Add(AddControl(this, new TextField() {name = fieldInfo.Name}, fieldInfo));
+                    viewCont.Add(AddControl(this, new TextField() {name = ValueFieldName}, fieldInfo));
                 else if (propertyType == typeof(float))
-                    viewCont.Add(AddControl(this, new FloatField() {name = fieldInfo.Name}, fieldInfo));
+                    viewCont.Add(AddControl(this, new FloatField() {name = ValueFieldName}, fieldInfo));
                 else if (propertyType == typeof(Vector3))
-                    viewCont.Add(AddControl(this, new Vector3Field() {name = fieldInfo.Name}, fieldInfo));
+                    viewCont.Add(AddControl(this, new Vector3Field() {name = ValueFieldName}, fieldInfo));
                 contents.Add(viewCont);
                 //Debug.Log(fieldInfo.Name);
             }
