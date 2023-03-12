@@ -56,7 +56,7 @@ public class LpRunRoot : MonoBehaviour
                 sourcePort.outputEdge = runEdge;
             }
             if(targetPort != null){
-                targetPort.inputEdge = runEdge;
+                targetPort.inputEdgeList.Add(runEdge);
             }
             this.edgeList.Add(runEdge);
         }

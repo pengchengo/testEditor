@@ -11,6 +11,7 @@ public class LpCompareNodeRT : LpRunNode
         input2 = this.getPortByName("参数2");
     }
     public override void Enter(LPRunEdge edge = null){
+        base.Enter(edge);
         float f1 = (float)this.getInputValue(input1);
         float f2 = (float)this.getInputValue(input2);
         if(f1 > f2){

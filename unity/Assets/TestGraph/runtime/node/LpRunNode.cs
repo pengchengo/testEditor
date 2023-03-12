@@ -7,6 +7,7 @@ public class LpRunNode
     public NodeData data = null;
     public int id = 0;
     public List<LpRunPort> portList = new List<LpRunPort>();
+    public LPRunEdge enterEdge;
     public LpRunNode(){
         
     }
@@ -62,6 +63,7 @@ public class LpRunNode
     }
 
     public virtual void Enter(LPRunEdge edge = null){
+        this.enterEdge = edge;
     }
 
     public void FlowFirst(){
@@ -74,6 +76,16 @@ public class LpRunNode
     }
 
     public object getInputValue(LpRunPort port){
-        return port.inputEdge.sourcePort.getter();
+        if(port.inputEdgeList.Count <= 1 || this.enterEdge == null){
+            return port.inputEdgeList[0].sourcePort.getter();
+        }
+        LPRunEdge selectEdge = port.inputEdgeList[0];
+        foreach(var inputEdge in port.inputEdgeList){
+            if(inputEdge == this.enterEdge){
+                selectEdge = this.enterEdge;
+                break;
+            }
+        }
+        return selectEdge.sourcePort.getter();
     }
 }

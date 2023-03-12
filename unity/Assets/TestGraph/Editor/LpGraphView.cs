@@ -50,13 +50,9 @@ public class LpGraphView : GraphView
 
         foreach(var property in graphData.properties){
             if(property.name == "posScale"){
-                Debug.Log("property.value="+property.value);
                 string[] sArray= property.value.Split(new char[1] {','});
-                Debug.Log("sArray=");
-                Debug.Log(sArray);
                 this.viewTransform.position = new Vector3(float.Parse(sArray[0]), float.Parse(sArray[1]), 0);
                 this.viewTransform.scale = new Vector3(float.Parse(sArray[2]), float.Parse(sArray[2]), 1);
-                //this.UpdateViewTransform(new Vector3(float.Parse(sArray[0]), float.Parse(sArray[1]), 0), new Vector3(float.Parse(sArray[2]), float.Parse(sArray[2]), 1));
             }
         }
         
@@ -96,10 +92,7 @@ public class LpGraphView : GraphView
                 edgeView.input.Connect(edgeView);
                 AddElement(edgeView);
             }
-            
         }
-
-        //this.CalculateRectToFitAll(this);
     }
 
     public void testCreate(){

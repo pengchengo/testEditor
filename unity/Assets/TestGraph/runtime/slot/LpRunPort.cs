@@ -7,7 +7,7 @@ public class LpRunPort
     public LpRunNode node;
     public SlotData data;
     public int id;
-    public LPRunEdge inputEdge = null;
+    public List<LPRunEdge> inputEdgeList = new List<LPRunEdge>();
     public LPRunEdge outputEdge = null;
     public string name = "";
     public delegate T ValueHandler<T>();

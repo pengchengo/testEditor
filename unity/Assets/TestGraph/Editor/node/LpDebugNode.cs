@@ -9,7 +9,7 @@ public class LpDebugNode : LpNode
     {
         title = "输出日志";
 
-        var inputPort = new LpPort(this, Orientation.Horizontal, Direction.Input, Port.Capacity.Single, typeof(Port), "入口");
+        var inputPort = new LpPort(this, Orientation.Horizontal, Direction.Input, Port.Capacity.Multi, typeof(Port), "入口");
         inputContainer.Add(inputPort);
     }
 }
